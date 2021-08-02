@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+    then echo "Wrong usage: Please provide argument - start/stop"
+    exit 1
+fi
+
+if [ $1 == "start" ]
+    then 
+        echo "starting..."
+        # check if von-network docker image has been built
+        echo "starting von-network"
+        ./von-network/manage start
+        echo "starting aries-cloudagent-python"
+        # ./aries-cloudagent-python/script/
+
+fi
+
+if [ $1 == "stop" ]
+    then
+        echo "stopping..."
+        echo "stopping von-network"
+        ./von-network/manage stop
+fi
