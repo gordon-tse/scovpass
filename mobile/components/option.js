@@ -61,7 +61,7 @@ const style = StyleSheet.create({
 
   presentButton: {
     marginTop: 20,
-    marginBottom: 25,
+    marginBottom: 10,
     padding: 10,
     backgroundColor: '#32cd32',
     borderRadius: 5,
