@@ -16,6 +16,7 @@
     "react-native": "0.64.2",
     "react-native-arnima-sdk": "./react-native-arnima-sdk-1.0.0.tgz",
     "react-native-event-listeners": "^1.0.7",
+    "react-native-swiper": "^1.6.0",
     "realm": "^10.6.0",
     "socket.io-client": "^4.1.3"
   },
