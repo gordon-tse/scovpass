@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   View,
   SafeAreaView,
@@ -16,22 +16,24 @@ import Option from '../components/option';
 
 const win = Dimensions.get('window');
 
-const Login = () => {
-  return (
-    <SafeAreaView style={style.container}>
-      <Header style={style.header}></Header>
-      <SafeAreaView style={style.subcontainer}>
-        <View style={{flex: 0.3}}></View>
-        <Swiper style={style.swipeView}>
-          <Credential></Credential>
-          <Credential></Credential>
-        </Swiper>
-        <Option></Option>
+class Wallet extends Component {
+  render() {
+    return (
+      <SafeAreaView style={style.container}>
+        <Header style={style.header}></Header>
+        <SafeAreaView style={style.subcontainer}>
+          <View style={{flex: 0.3}}></View>
+          <Swiper style={style.swipeView}>
+            <Credential></Credential>
+            <Credential></Credential>
+          </Swiper>
+          <Option></Option>
+        </SafeAreaView>
+        <Footer />
       </SafeAreaView>
-      <Footer />
-    </SafeAreaView>
-  );
-};
+    );
+  }
+}
 
 const style = StyleSheet.create({
   container: {
@@ -56,21 +58,8 @@ const style = StyleSheet.create({
   swipeView: {
     alignContent: 'center',
   },
-
-  footer: {
-    flex: 0.1,
-    padding: 5,
-    flexDirection: 'column',
-    alignContent: 'center',
-  },
-
-  settingIcon: {
-    resizeMode: 'contain',
-    height: win.height / 20,
-    alignSelf: 'center',
-  },
 });
 
-AppRegistry.registerComponent('mobile', () => SwiperComponent);
+AppRegistry.registerComponent('mobile', () => Wallet);
 
-export default Login;
+export default Wallet;
