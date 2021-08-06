@@ -6,6 +6,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '13.0'
 pod 'ArnimaSdk', :path => '../node_modules/react-native-arnima-sdk'
 
+permissions_path = '../node_modules/react-native-permissions/ios'
+pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
 target 'mobile' do
   config = use_native_modules!
 
@@ -14,6 +17,10 @@ target 'mobile' do
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
+
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
   target 'mobileTests' do
     inherit! :complete
