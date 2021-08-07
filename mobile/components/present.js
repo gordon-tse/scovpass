@@ -7,7 +7,6 @@ import {
   Linking,
   TouchableOpacity,
   Text,
-  Alert,
 } from 'react-native';
 
 import Header from '../components/header';
@@ -24,6 +23,7 @@ class Present extends Component {
   };
 
   render() {
+    
     return (
       <SafeAreaView style={style.container}>
         <Header style={style.header}></Header>
@@ -38,7 +38,7 @@ class Present extends Component {
           />
           <TouchableOpacity
             style={style.cancelButton}
-            onPress={() => Alert.alert('Routing to be implemented')}>
+            onPress={() => {this.props.navigation.goBack()}}>
             <Text style={style.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </SafeAreaView>

@@ -10,6 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/native": "^6.0.1",
+    "@react-navigation/stack": "^6.0.1",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
     "react": "17.0.1",
@@ -17,8 +20,12 @@
     "react-native-arnima-sdk": "./react-native-arnima-sdk-1.0.0.tgz",
     "react-native-camera": "^4.0.0",
     "react-native-event-listeners": "^1.0.7",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-permissions": "^3.0.5",
     "react-native-qrcode-scanner": "^1.5.4",
+    "react-native-reanimated": "^2.2.0",
+    "react-native-safe-area-context": "^3.3.0",
+    "react-native-screens": "^3.5.0",
     "react-native-swiper": "^1.6.0",
     "realm": "^10.6.0",
     "socket.io-client": "^4.1.3"

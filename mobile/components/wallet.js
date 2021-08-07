@@ -20,14 +20,14 @@ class Wallet extends Component {
   render() {
     return (
       <SafeAreaView style={style.container}>
-        <Header style={style.header}></Header>
+        <Header />
         <SafeAreaView style={style.subcontainer}>
           <View style={{flex: 0.3}}></View>
           <Swiper style={style.swipeView}>
             <Credential></Credential>
             <Credential></Credential>
           </Swiper>
-          <Option></Option>
+          <Option />
         </SafeAreaView>
         <Footer />
       </SafeAreaView>
@@ -46,13 +46,6 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     padding: 15,
     justifyContent: 'center',
-  },
-
-  header: {
-    width: win.width / 1.2,
-    height: null,
-    resizeMode: 'contain',
-    alignSelf: 'center',
   },
 
   swipeView: {

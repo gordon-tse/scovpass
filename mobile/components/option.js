@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -12,6 +13,8 @@ import {
 const win = Dimensions.get('window');
 
 const Option = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={style.optionsFrame}>
       <TouchableHighlight
@@ -34,7 +37,8 @@ const Option = () => {
       </TouchableHighlight>
       <TouchableOpacity
         style={style.presentButton}
-        onPress={() => Alert.alert('Routing to be implemented')}>
+        // onPress={() => Alert.alert('Routing to be implemented')}>
+        onPress={() =>  navigation.navigate('present') }>
         <Text style={style.presentButtonText}>Present</Text>
       </TouchableOpacity>
     </View>
