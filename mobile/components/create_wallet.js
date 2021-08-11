@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   Image,
@@ -8,44 +8,104 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  AppRegistry,
 } from 'react-native';
+import ArnimaSDK from 'react-native-arnima-sdk';
 
 const win = Dimensions.get('window');
 
-const Create_wallet = () => {
-  // const text = React.useState(null);
-  // const number = React.useState(null);
-
-  return (
-    <SafeAreaView style={style.container}>
-      <Image
-        source={require('../assets/scovpass_namelogo.png')}
-        style={style.frontLogo}
-      />
-      <SafeAreaView style={style.inputSection}>
-        <Text style={style.loginText}>Create your own wallet</Text>
-        <TextInput style={style.input} placeholder="set your wallet name" />
-        <TextInput
-          style={style.input}
-          placeholder="set your passcode"
-          keyboardType="number-pad"
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={style.input}
-          placeholder="type your passcode once again"
-          keyboardType="number-pad"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity
-          style={style.button}
-          onPress={() => Alert.alert('Routing to be implemented')}>
-          <Text style={style.buttonText}>Start receiving passes</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </SafeAreaView>
-  );
+const initState = {
+  name: null,
+  passcode1: null,
+  passcode2: null,
 };
+
+class Create extends Component {
+  constructor(props) {
+    super(props);
+    this.state = initState;
+    this.createWallet = this.createWallet.bind(this);
+  }
+
+  state = {
+    name: String,
+    passcode1: Number,
+    passcode2: Number,
+  };
+
+  setEntryState = (entry, input) => {
+    if (entry == 'name') {
+      this.state.name = input;
+    } else if (entry == 'init') {
+      this.state.passcode1 = input;
+    } else if ((entry = 'confirm')) {
+      this.state.passcode2 = input;
+    }
+  };
+
+  matchedPasscode = () => {
+    return this.state.passcode1 == this.state.passcode2;
+  };
+
+  createWallet = async () => {
+    if (this.state.name && this.state.passcode1) {
+      if (this.matchedPasscode()) {
+        let wallet = await ArnimaSDK.createWallet(
+          {id: this.state.name},
+          {key: this.state.passcode1},
+          this.state.name,
+        );
+        console.log(wallet);
+        this.props.navigation.navigate('wallet');
+      } else {
+        Alert.alert('Passcodes do not match');
+      }
+    } else {
+      Alert.alert('Please set a name and a passcode');
+    }
+  };
+
+  render() {
+    return (
+      <SafeAreaView style={style.container}>
+        <Image
+          source={require('../assets/scovpass_namelogo.png')}
+          style={style.frontLogo}
+        />
+        <SafeAreaView style={style.inputSection}>
+          <Text style={style.loginText}>Create your own wallet</Text>
+          <TextInput
+            style={style.input}
+            placeholder="set your wallet name"
+            autoCapitalize='characters'
+            onChangeText={input => this.setEntryState('name', input)}
+          />
+          <TextInput
+            style={style.input}
+            placeholder="set your passcode"
+            keyboardType="number-pad"
+            secureTextEntry={true}
+            onChangeText={input => this.setEntryState('init', input)}
+          />
+          <TextInput
+            style={style.input}
+            placeholder="type your passcode once again"
+            keyboardType="number-pad"
+            secureTextEntry={true}
+            onChangeText={input => this.setEntryState('check', input)}
+          />
+          <TouchableOpacity
+            style={style.button}
+            onPress={() => {
+              this.createWallet();
+            }}>
+            <Text style={style.buttonText}>Start receiving passes</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </SafeAreaView>
+    );
+  }
+}
 
 const style = StyleSheet.create({
   container: {
@@ -105,6 +165,15 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+
+  warningText: {
+    fontSize: 12,
+    fontWeight: '300',
+    color: 'red',
+    alignSelf: 'center',
+  },
 });
 
-export default Create_wallet;
+AppRegistry.registerComponent('mobile', () => Create);
+
+export default Create;

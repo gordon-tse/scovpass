@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
+  AppRegistry,
   Text,
   Image,
   SafeAreaView,
@@ -9,37 +10,79 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import ArnimaSDK from 'react-native-arnima-sdk';
 
 const win = Dimensions.get('window');
 
-const Wallet = () => {
-  const text = React.useState(null);
-  const number = React.useState(null);
-
-  return (
-    <SafeAreaView style={style.container}>
-      <Image
-        source={require('../assets/scovpass_namelogo.png')}
-        style={style.frontLogo}
-      />
-      <SafeAreaView style={style.inputSection}>
-        <Text style={style.loginText}>Login to your wallet</Text>
-        <TextInput style={style.input} placeholder="your wallet name" />
-        <TextInput
-          style={style.input}
-          placeholder="your passcode"
-          keyboardType="number-pad"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity
-          style={style.button}
-          onPress={() => Alert.alert('Routing to be implemented')}>
-          <Text style={style.buttonText}>Go to wallet</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </SafeAreaView>
-  );
+const initState = {
+  name: null,
+  passcode: null,
 };
+
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = initState;
+    this.login = this.login.bind(this);
+  }
+
+  state = {
+    name: String,
+    passcode: Number,
+  };
+
+  setEntryState = (entry, input) => {
+    if (entry == 'name') {
+      this.state.name = input;
+    } else if (entry == 'passcode') {
+      this.state.passcode = input;
+    }
+  };
+
+  login = async () => {
+    const wallet = await ArnimaSDK.getWallet();
+    const name = JSON.parse(wallet.walletConfig);
+    const passcode = JSON.parse(wallet.walletCredentials);
+    if (
+      this.state.name === name.id &&
+      this.state.passcode === passcode.key
+    ) {
+      this.props.navigation.navigate('wallet');
+    } else {
+      Alert.alert('Wrong wallet name or passcode');
+    }
+  };
+
+  render() {
+    return (
+      <SafeAreaView style={style.container}>
+        <Image
+          source={require('../assets/scovpass_namelogo.png')}
+          style={style.frontLogo}
+        />
+        <SafeAreaView style={style.inputSection}>
+          <Text style={style.loginText}>Login to your wallet</Text>
+          <TextInput
+            style={style.input}
+            placeholder="your wallet name"
+            autoCapitalize='characters'
+            onChangeText={input => this.setEntryState('name', input)}
+          />
+          <TextInput
+            style={style.input}
+            placeholder="your passcode"
+            keyboardType="number-pad"
+            secureTextEntry={true}
+            onChangeText={input => this.setEntryState('passcode', input)}
+          />
+          <TouchableOpacity style={style.button} onPress={() => this.login()}>
+            <Text style={style.buttonText}>Go to wallet</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </SafeAreaView>
+    );
+  }
+}
 
 const style = StyleSheet.create({
   container: {
@@ -101,4 +144,6 @@ const style = StyleSheet.create({
   },
 });
 
-export default Wallet;
+AppRegistry.registerComponent('mobile', () => Login);
+
+export default Login;
