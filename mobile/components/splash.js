@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Dimensions, AppRegistry} from 'react-native';
+import {View, Image, StyleSheet, Dimensions, AppRegistry} from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 
 const win = Dimensions.get('window');
@@ -15,17 +15,27 @@ class Splash extends Component {
       if (!wallet) {
         this.props.navigation.navigate('create');
       } else {
-        this.props.navigation.navigate('login');
+        this.props.navigation.navigate('LoginScreen');
       }
-    }, 2500);
+    }, 2000);
   }
 
   render() {
     return (
-      <Image
-        source={require('../assets/scovpass_namelogo.png')}
-        style={style.logo}
-      />
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'white',
+        }}>
+        <Image
+          source={require('../assets/scovpass_namelogo.png')}
+          style={style.logo}
+        />
+      </View>
     );
   }
 }

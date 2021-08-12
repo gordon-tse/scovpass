@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   AppRegistry,
+  BackHandler,
 } from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 
@@ -56,7 +57,7 @@ class Create extends Component {
           this.state.name,
         );
         console.log(wallet);
-        this.props.navigation.navigate('wallet');
+        this.props.navigation.navigate('Main');
       } else {
         Alert.alert('Passcodes do not match');
       }
@@ -77,7 +78,7 @@ class Create extends Component {
           <TextInput
             style={style.input}
             placeholder="set your wallet name"
-            autoCapitalize='characters'
+            autoCapitalize="characters"
             onChangeText={input => this.setEntryState('name', input)}
           />
           <TextInput
@@ -109,6 +110,12 @@ class Create extends Component {
 
 const style = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'white',
     flex: 1,
     padding: 20,
   },

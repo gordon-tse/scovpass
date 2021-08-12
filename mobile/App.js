@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import ArnimaSDK from 'react-native-arnima-sdk';
 import {
   AppState,
@@ -31,9 +32,15 @@ import Passcode from './components/passcode';
 
 const Stack = createStackNavigator();
 
-class App extends Component {
+// class AuthSwitch extends Component {
+//   render() {
+//     return <AuthNavigator/>
+//   }
+// }
+
+class AppStack extends Component {
   render() {
-     return (
+    return (
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -41,9 +48,9 @@ class App extends Component {
             cardStyle: {backgroundColor: 'white'},
           }}>
           {/* <Stack.Screen name="passcode" component={Passcode} /> */}
-          <Stack.Screen name="splash" component={Splash} />
-          <Stack.Screen name="create" component={Create} />
-          <Stack.Screen name="login" component={Login} />
+          {/* <Stack.Screen name="splash" component={Splash} /> */}
+          {/* <Stack.Screen name="create" component={Create} /> */}
+          {/* <Stack.Screen name="login" component={Login} /> */}
           <Stack.Screen name="wallet" component={Wallet} />
           <Stack.Screen name="present" component={Present} />
         </Stack.Navigator>
@@ -51,5 +58,14 @@ class App extends Component {
     );
   }
 }
+
+const AuthNavigator = createSwitchNavigator({
+  SplashScreen: Splash,
+  LoginScreen: Login,
+  CreateWallet: Create,
+  Main: AppStack,
+});
+
+const App = createAppContainer(AuthNavigator);
 
 export default App;

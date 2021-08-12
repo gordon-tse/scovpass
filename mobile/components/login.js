@@ -9,6 +9,7 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 
@@ -43,11 +44,8 @@ class Login extends Component {
     const wallet = await ArnimaSDK.getWallet();
     const name = JSON.parse(wallet.walletConfig);
     const passcode = JSON.parse(wallet.walletCredentials);
-    if (
-      this.state.name === name.id &&
-      this.state.passcode === passcode.key
-    ) {
-      this.props.navigation.navigate('wallet');
+    if (this.state.name === name.id && this.state.passcode === passcode.key) {
+      this.props.navigation.navigate('Main');
     } else {
       Alert.alert('Wrong wallet name or passcode');
     }
@@ -65,7 +63,7 @@ class Login extends Component {
           <TextInput
             style={style.input}
             placeholder="your wallet name"
-            autoCapitalize='characters'
+            autoCapitalize="characters"
             onChangeText={input => this.setEntryState('name', input)}
           />
           <TextInput
@@ -86,6 +84,12 @@ class Login extends Component {
 
 const style = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'white',
     flex: 1,
     padding: 20,
   },
