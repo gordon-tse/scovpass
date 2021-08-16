@@ -547,7 +547,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  ArnimaSdk: 9f622a6e0f061cb80a3658f4175661104a29a3bc
+  ArnimaSdk: f9e0de729c7ad1c5dd1c8de3d363e0e28c55531f
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
