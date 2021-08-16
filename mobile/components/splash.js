@@ -13,7 +13,7 @@ class Splash extends Component {
     setTimeout(async () => {
       const wallet = await ArnimaSDK.getWallet();
       if (!wallet) {
-        this.props.navigation.navigate('create');
+        this.props.navigation.navigate('CreateWallet');
       } else {
         this.props.navigation.navigate('LoginScreen');
       }
