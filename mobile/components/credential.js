@@ -8,12 +8,12 @@ import {
 
 const win = Dimensions.get('window');
 
-const Credential = () => {
+const Credential = (props) => {
   return (
     <View style={style.container}>
       <View style={style.bannerFrame}>
         <Image
-          source={require('../assets/nhsbanner.png')}
+          source={{uri: props.source}}
           style={style.image}
         />
       </View>
