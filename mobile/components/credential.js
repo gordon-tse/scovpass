@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {View, Image, StyleSheet, Dimensions} from 'react-native';
 
 const win = Dimensions.get('window');
 
-const Credential = (props) => {
+const Credential = props => {
   return (
     <View style={style.container}>
       <View style={style.bannerFrame}>
         <Image
-          source={{uri: props.source}}
+          source={props.source ? {uri: props.source} : null}
           style={style.image}
         />
       </View>
@@ -44,7 +39,6 @@ const style = StyleSheet.create({
     height: null,
     borderRadius: 10,
   },
-
 });
 
 export default Credential;

@@ -12,6 +12,7 @@ import {
   BackHandler,
 } from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const win = Dimensions.get('window');
 
@@ -19,6 +20,7 @@ const initState = {
   name: null,
   passcode1: null,
   passcode2: null,
+  loading: false,
 };
 
 class Create extends Component {
@@ -32,6 +34,7 @@ class Create extends Component {
     name: String,
     passcode1: Number,
     passcode2: Number,
+    loading: Boolean,
   };
 
   setEntryState = (entry, input) => {
@@ -51,11 +54,12 @@ class Create extends Component {
   createWallet = async () => {
     if (this.state.name && this.state.passcode1) {
       if (this.matchedPasscode()) {
+        this.setState({loading: true});
         let wallet = await ArnimaSDK.createWallet(
           {id: this.state.name},
           {key: this.state.passcode1},
           this.state.name,
-        );
+        ).then(this.setState({load: false}));
         console.log(wallet);
         this.props.navigation.navigate('Main');
       } else {
@@ -67,44 +71,54 @@ class Create extends Component {
   };
 
   render() {
-    return (
-      <SafeAreaView style={style.container}>
-        <Image
-          source={require('../assets/scovpass_namelogo.png')}
-          style={style.frontLogo}
+    if (this.state.loading) {
+      return (
+        <Spinner
+          cancelable={false}
+          color="#0f8df0"
+          visible={this.state.loading}
         />
-        <SafeAreaView style={style.inputSection}>
-          <Text style={style.loginText}>Create your own wallet</Text>
-          <TextInput
-            style={style.input}
-            placeholder="set your wallet name"
-            autoCapitalize="characters"
-            onChangeText={input => this.setEntryState('name', input)}
+      );
+    } else {
+      return (
+        <SafeAreaView style={style.container}>
+          <Image
+            source={require('../assets/scovpass_namelogo.png')}
+            style={style.frontLogo}
           />
-          <TextInput
-            style={style.input}
-            placeholder="set your passcode"
-            keyboardType="number-pad"
-            secureTextEntry={true}
-            onChangeText={input => this.setEntryState('init', input)}
-          />
-          <TextInput
-            style={style.input}
-            placeholder="type your passcode once again"
-            keyboardType="number-pad"
-            secureTextEntry={true}
-            onChangeText={input => this.setEntryState('check', input)}
-          />
-          <TouchableOpacity
-            style={style.button}
-            onPress={() => {
-              this.createWallet();
-            }}>
-            <Text style={style.buttonText}>Start receiving passes</Text>
-          </TouchableOpacity>
+          <SafeAreaView style={style.inputSection}>
+            <Text style={style.loginText}>Create your own wallet</Text>
+            <TextInput
+              style={style.input}
+              placeholder="set your wallet name"
+              autoCapitalize="characters"
+              onChangeText={input => this.setEntryState('name', input)}
+            />
+            <TextInput
+              style={style.input}
+              placeholder="set your passcode"
+              keyboardType="number-pad"
+              secureTextEntry={true}
+              onChangeText={input => this.setEntryState('init', input)}
+            />
+            <TextInput
+              style={style.input}
+              placeholder="type your passcode once again"
+              keyboardType="number-pad"
+              secureTextEntry={true}
+              onChangeText={input => this.setEntryState('check', input)}
+            />
+            <TouchableOpacity
+              style={style.button}
+              onPress={() => {
+                this.createWallet();
+              }}>
+              <Text style={style.buttonText}>Start receiving passes</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
         </SafeAreaView>
-      </SafeAreaView>
-    );
+      );
+    }
   }
 }
 
