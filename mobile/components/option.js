@@ -12,9 +12,8 @@ import {
 
 const win = Dimensions.get('window');
 
-const Option = () => {
+const Option = (props) => {
   const navigation = useNavigation();
-
   return (
     <View style={style.optionsFrame}>
       <TouchableHighlight
@@ -37,8 +36,7 @@ const Option = () => {
       </TouchableHighlight>
       <TouchableOpacity
         style={style.presentButton}
-        // onPress={() => Alert.alert('Routing to be implemented')}>
-        onPress={() =>  navigation.navigate('present') }>
+        onPress={() =>  navigation.navigate('present', {cred: props.cred, useDummy: props.useDummy}) }>
         <Text style={style.presentButtonText}>Present</Text>
       </TouchableOpacity>
     </View>

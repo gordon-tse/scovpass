@@ -14,22 +14,44 @@ import Footer from '../components/footer';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const win = Dimensions.get('window');
+const dummyInvitation = 'https://dummyinvitation.com';
 
 class Present extends Component {
-  onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err),
-    );
+  constructor(props) {
+    super(props);
+    this.onSuccess = this.onSuccess.bind(this);
+  }
+
+  state = {
+    invitation: URL,
+    cred: Object,
+  };
+
+  // For overriding with dummy
+  componentDidMount = () => {
+    if (this.props.route.params.useDummy) {
+      setTimeout(() => {
+        this.onSuccess(dummyInvitation);
+      }, 1500);
+    }
+  };
+
+  onSuccess = invitation => {
+    this.props.navigation.navigate('passcode', {
+      verifier: invitation,
+      cred: this.props.route.params.cred,
+      useDummy: this.props.route.params.useDummy,
+    });
   };
 
   render() {
-    
     return (
       <SafeAreaView style={style.container}>
         <Header style={style.header}></Header>
         <SafeAreaView style={style.subcontainer}>
           <QRCodeScanner
             onRead={this.onSuccess}
+            fadeIn={true}
             topContent={
               <Text style={style.topText}>
                 Scan a QR code to connect with a verifier
@@ -38,7 +60,7 @@ class Present extends Component {
           />
           <TouchableOpacity
             style={style.cancelButton}
-            onPress={() => {this.props.navigation.goBack()}}>
+            onPress={() => this.props.navigation.goBack()}>
             <Text style={style.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </SafeAreaView>

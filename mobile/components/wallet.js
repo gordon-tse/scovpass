@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useCallback} from 'react';
 import {
   View,
   SafeAreaView,
@@ -6,7 +6,6 @@ import {
   Dimensions,
   AppRegistry,
   Alert,
-  Text,
 } from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 import Swiper from 'react-native-swiper';
@@ -17,8 +16,8 @@ import Footer from '../components/footer';
 import Credential from '../components/credential';
 import Option from '../components/option';
 import dummyCreds from '../assets/dummyCred';
-import {color} from 'react-native-reanimated';
 
+const useDummy = true;
 const win = Dimensions.get('window');
 const mediatorURL =
   'http://mediator3.test.indiciotech.io:3000?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiYjE5YTM2ZjctZjhiZi00Mjg2LTg4ZjktODM4ZTIyZDI0ZjQxIiwgInJlY2lwaWVudEtleXMiOiBbIkU5VlhKY1pzaGlYcXFMRXd6R3RtUEpCUnBtMjl4dmJMYVpuWktTU0ZOdkE2Il0sICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL21lZGlhdG9yMy50ZXN0LmluZGljaW90ZWNoLmlvOjMwMDAiLCAibGFiZWwiOiAiSW5kaWNpbyBQdWJsaWMgTWVkaWF0b3IifQ==';
@@ -52,12 +51,12 @@ class Wallet extends Component {
   };
 
   componentDidMount() {
-    this.getPool(network).then(genesis => {
-      this.connectToMediator(genesis);
-    });
-    this.retrieveCredentials().then(() => {
-      this.setState({loading: false});
-    });
+    this.getPool(network)
+      .then(genesis => {
+        this.connectToMediator(genesis);
+      })
+      .then(() => this.retrieveCredentials())
+      .then(() => this.setState({loading: false}));
   }
 
   getPool = async network => {
@@ -92,23 +91,25 @@ class Wallet extends Component {
   };
 
   retrieveCredentials = async () => {
-    return ArnimaSDK.getAllCredential()
+    return ArnimaSDK.getAllCredential({})
       .then(creds => {
-        this.setState({credList: creds});
         var index = 0;
         var loadedList = [];
+        this.setState({credList: creds});
+
         // -- dummy creds --
-        this.setState({credList: dummyCreds});
+        if(useDummy){
+          this.setState({credList: dummyCreds});
+        }
         // -- dummy creds --
         this.state.credList.forEach(cred => {
           if (cred.attrs.thumbnail) {
             loadedList.push({key: index++, src: cred.attrs.thumbnail});
           } else {
-            loadedList.push({key: index++, src: ''});
+            loadedList.push({key: index++, src: null});
           }
         });
         this.setState({thumbnailDisplay: loadedList});
-        // console.log(this.state.thumbnailDisplay);
       })
       .catch(e => console.log(e));
   };
@@ -123,7 +124,6 @@ class Wallet extends Component {
         />
       );
     } else {
-      console.log(this.state.thumbnailDisplay);
       const creds = this.state.thumbnailDisplay.map(cred => {
         return <Credential key={cred.key} source={cred.src} />;
       });
@@ -135,10 +135,10 @@ class Wallet extends Component {
             <View style={{flex: 0.3}}></View>
             <Swiper
               style={style.swipeView}
-              onIndexChanged={index => (this.state.currentCred = index)}>
+              onIndexChanged={index => this.setState({currentCred: index})}>
               {creds}
             </Swiper>
-            <Option />
+            <Option cred={this.state.credList[this.state.currentCred]} useDummy={useDummy} />
           </SafeAreaView>
           <Footer />
         </SafeAreaView>
