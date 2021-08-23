@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Text,
@@ -11,11 +12,14 @@ import {
 
 const win = Dimensions.get('window');
 
-const Footer = () => {
+const Footer = props => {
+  const navigation = useNavigation();
   return (
     <View style={style.footer}>
       <TouchableOpacity
-        onPress={() => Alert.alert('Routing to be implemented')}>
+        onPress={() =>
+          navigation.navigate('manage', {useDummy: props.useDummy})
+        }>
         <Image
           source={require('../assets/setting.png')}
           style={style.settingIcon}
@@ -32,7 +36,7 @@ const style = StyleSheet.create({
     padding: 5,
     flexDirection: 'column',
     alignContent: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
 
   settingIcon: {
@@ -44,8 +48,8 @@ const style = StyleSheet.create({
   settingCaption: {
     fontSize: 15,
     fontWeight: '200',
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });
 
 export default Footer;

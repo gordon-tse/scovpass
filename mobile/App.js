@@ -13,6 +13,7 @@ import Present from './components/present';
 import Passcode from './components/passcode';
 import PresentationResult from './components/presentation_result';
 import GetVerified from './components/get_verified';
+import Manage from './components/manage';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ class AppStack extends Component {
             cardStyle: {backgroundColor: 'white'},
           }}>
           <Stack.Screen name="wallet" component={Wallet} />
+          <Stack.Screen name="manage" component={Manage} />
           <Stack.Screen name="present" component={Present} />
           <Stack.Screen name="passcode" component={Passcode} />
           <Stack.Screen name="getverified" component={GetVerified} />

@@ -140,7 +140,7 @@ class Wallet extends Component {
             </Swiper>
             <Option cred={this.state.credList[this.state.currentCred]} useDummy={useDummy} />
           </SafeAreaView>
-          <Footer />
+          <Footer useDummy={useDummy}/>
         </SafeAreaView>
       );
     }
