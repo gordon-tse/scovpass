@@ -14,6 +14,7 @@ import Passcode from './components/passcode';
 import PresentationResult from './components/presentation_result';
 import GetVerified from './components/get_verified';
 import Manage from './components/manage';
+import FetchCredential from './components/fetch_credential';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ class AppStack extends Component {
           }}>
           <Stack.Screen name="wallet" component={Wallet} />
           <Stack.Screen name="manage" component={Manage} />
+          <Stack.Screen name="fetchcreds" component={FetchCredential} />
           <Stack.Screen name="present" component={Present} />
           <Stack.Screen name="passcode" component={Passcode} />
           <Stack.Screen name="getverified" component={GetVerified} />

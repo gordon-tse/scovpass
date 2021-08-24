@@ -30,7 +30,6 @@ class Manage extends Component {
   }
 
   componentDidMount() {
-    // this.setState({useDummy: this.props.useDummy});
     this.getWalletInfo();
     this.create2DBarcode();
   }
@@ -94,7 +93,13 @@ class Manage extends Component {
           </View>
         </View>
         <View style={{alignContent: 'flex-end'}}>
-          <TouchableOpacity style={style.button} onPress={() => console.log()}>
+          <TouchableOpacity
+            style={style.button}
+            onPress={() =>
+              this.props.navigation.navigate('fetchcreds', {
+                useDummy: this.state.useDummy,
+              })
+            }>
             <Text style={style.buttonText}>Check for new credentials</Text>
           </TouchableOpacity>
         </View>
