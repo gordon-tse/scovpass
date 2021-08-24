@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Dimensions,
   AppRegistry,
-  Linking,
   TouchableOpacity,
   Text,
 } from 'react-native';
@@ -64,7 +63,7 @@ class Present extends Component {
             <Text style={style.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </SafeAreaView>
-        <Footer />
+        <Footer setting={false} />
       </SafeAreaView>
     );
   }

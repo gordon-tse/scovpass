@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  Image,
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
@@ -15,6 +14,7 @@ import QRCode from 'react-native-qrcode-svg';
 import Clipboard from '@react-native-community/clipboard';
 
 import Header from './header';
+import Footer from './footer';
 
 const win = Dimensions.get('window');
 
@@ -103,15 +103,7 @@ class Manage extends Component {
             <Text style={style.buttonText}>Check for new credentials</Text>
           </TouchableOpacity>
         </View>
-        <View style={style.backButton}>
-          <TouchableOpacity onPress={() => this.navigation.navigate('wallet')}>
-            <Image
-              source={require('../assets/backbutton.png')}
-              style={style.settingIcon}
-            />
-            <Text style={style.backButtonText}>Back To Wallet</Text>
-          </TouchableOpacity>
-        </View>
+        <Footer setting={false} />
       </SafeAreaView>
     );
   }
@@ -124,7 +116,7 @@ const style = StyleSheet.create({
   },
 
   subContainer: {
-    flex: 1,
+    flex: 0.85,
     padding: 10,
   },
 
@@ -183,25 +175,6 @@ const style = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     justifyContent: 'center',
-  },
-
-  settingIcon: {
-    margin: 10,
-    resizeMode: 'contain',
-    height: win.height / 40,
-    alignSelf: 'center',
-  },
-
-  backButton: {
-    flex: 0.1,
-    alignContent: 'center',
-    justifyContent: 'flex-end',
-  },
-
-  backButtonText: {
-    fontSize: 15,
-    fontWeight: '200',
-    alignSelf: 'center',
   },
 });
 

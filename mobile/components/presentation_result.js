@@ -19,7 +19,7 @@ const PresentationResult = () => {
           Presentation success!
         </Text>
       </SafeAreaView>
-      <Footer />
+      <Footer setting={false} />
     </SafeAreaView>
   );
 };

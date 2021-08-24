@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Alert} from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 import {EventRegister} from 'react-native-event-listeners';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -11,6 +11,15 @@ const initState = {
   number: 0,
   loadText: '',
 };
+
+const mediatorJSON = {
+  '@type': 'did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/connections/1.0/invitation',
+  '@id': 'b19a36f7-f8bf-4286-88f9-838e22d24f41',
+  recipientKeys: ['E9VXJcZshiXqqLEwzGtmPJBRpm29xvbLaZnZKSSFNvA6'],
+  serviceEndpoint: 'http://mediator3.test.indiciotech.io:3000',
+  label: 'Indicio Public Mediator',
+};
+const network = 'http://test.bcovrin.vonx.io/genesis';
 
 class FetchCredential extends Component {
   constructor(props) {
@@ -30,6 +39,9 @@ class FetchCredential extends Component {
   componentDidMount() {
     this.setState({
       loadText: 'Retrieving ' + this.state.number + ' credentials',
+    });
+    this.getPool(network).then(async genesis => {
+      this.connectToMediator(genesis);
     });
     this.timeOutCount = setTimeout(() => {
       this.setState({finished: true});
@@ -71,6 +83,41 @@ class FetchCredential extends Component {
     } else {
       console.log('Unsupported message received');
     }
+  };
+
+  getPool = async network => {
+    return fetch(network, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async res => {
+        return await res.text();
+      })
+      .catch(e => console.log(e));
+  };
+
+  connectToMediator = async poolConfig => {
+    ArnimaSDK.getWallet().then(async wallet => {
+      const walletInfo = {
+        myDid: wallet.publicDid,
+        verkey: wallet.verKey,
+        label: wallet.label,
+        firebaseToken: '',
+      };
+      const mediation = ArnimaSDK.connectWithMediator(
+        mediatorJSON.serviceEndpoint,
+        'POST',
+        JSON.stringify(walletInfo),
+        poolConfig,
+      ).catch(e => {
+        Alert.alert('Service unavailable at the moment');
+        this.setState({finished: true});
+        this.props.navigation.navigate('wallet');
+      });
+    });
   };
 
   mockUpFetching = () => {

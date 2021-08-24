@@ -7,7 +7,6 @@ import {
   Dimensions,
   View,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 
 const win = Dimensions.get('window');
@@ -18,13 +17,21 @@ const Footer = props => {
     <View style={style.footer}>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('manage', {useDummy: props.useDummy})
+          props.setting
+            ? navigation.navigate('manage', {useDummy: props.useDummy})
+            : navigation.navigate('wallet')
         }>
         <Image
-          source={require('../assets/setting.png')}
-          style={style.settingIcon}
+          source={
+            props.setting
+              ? require('../assets/setting.png')
+              : require('../assets/backbutton.png')
+          }
+          style={props.setting ? style.settingIcon : style.backIcon}
         />
-        <Text style={style.settingCaption}>Manage</Text>
+        <Text style={style.cation}>
+          {props.setting ? 'Manage' : 'Back to wallet'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -45,7 +52,14 @@ const style = StyleSheet.create({
     alignSelf: 'center',
   },
 
-  settingCaption: {
+  backIcon: {
+    margin: 10,
+    resizeMode: 'contain',
+    height: win.height / 45,
+    alignSelf: 'center',
+  },
+
+  cation: {
     fontSize: 15,
     fontWeight: '200',
     alignSelf: 'center',

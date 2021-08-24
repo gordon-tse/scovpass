@@ -1,12 +1,5 @@
-import React, {Component, useCallback} from 'react';
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Dimensions,
-  AppRegistry,
-  Alert,
-} from 'react-native';
+import React, {Component} from 'react';
+import {View, SafeAreaView, StyleSheet, AppRegistry} from 'react-native';
 import ArnimaSDK from 'react-native-arnima-sdk';
 import Swiper from 'react-native-swiper';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -18,17 +11,6 @@ import Option from '../components/option';
 import dummyCreds from '../assets/dummyCred';
 
 const useDummy = true;
-const win = Dimensions.get('window');
-const mediatorURL =
-  'http://mediator3.test.indiciotech.io:3000?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiYjE5YTM2ZjctZjhiZi00Mjg2LTg4ZjktODM4ZTIyZDI0ZjQxIiwgInJlY2lwaWVudEtleXMiOiBbIkU5VlhKY1pzaGlYcXFMRXd6R3RtUEpCUnBtMjl4dmJMYVpuWktTU0ZOdkE2Il0sICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL21lZGlhdG9yMy50ZXN0LmluZGljaW90ZWNoLmlvOjMwMDAiLCAibGFiZWwiOiAiSW5kaWNpbyBQdWJsaWMgTWVkaWF0b3IifQ==';
-const mediatorJSON = {
-  '@type': 'did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/connections/1.0/invitation',
-  '@id': 'b19a36f7-f8bf-4286-88f9-838e22d24f41',
-  recipientKeys: ['E9VXJcZshiXqqLEwzGtmPJBRpm29xvbLaZnZKSSFNvA6'],
-  serviceEndpoint: 'http://mediator3.test.indiciotech.io:3000',
-  label: 'Indicio Public Mediator',
-};
-const network = 'http://test.bcovrin.vonx.io/genesis';
 
 const initState = {
   loading: true,
@@ -51,44 +33,8 @@ class Wallet extends Component {
   };
 
   componentDidMount() {
-    this.getPool(network)
-      .then(genesis => {
-        this.connectToMediator(genesis);
-      })
-      .then(() => this.retrieveCredentials())
-      .then(() => this.setState({loading: false}));
+    this.retrieveCredentials().then(() => this.setState({loading: false}));
   }
-
-  getPool = async network => {
-    return fetch(network, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(async res => {
-        return await res.text();
-      })
-      .catch(e => console.log(e));
-  };
-
-  connectToMediator = async poolConfig => {
-    ArnimaSDK.getWallet().then(async wallet => {
-      const walletInfo = {
-        myDid: wallet.publicDid,
-        verkey: wallet.verKey,
-        label: wallet.label,
-        firebaseToken: '',
-      };
-      const mediation = ArnimaSDK.connectWithMediator(
-        mediatorJSON.serviceEndpoint,
-        'POST',
-        JSON.stringify(walletInfo),
-        poolConfig,
-      ).catch(e => Alert.alert('Service unavailable at the moment'));
-    });
-  };
 
   retrieveCredentials = async () => {
     return ArnimaSDK.getAllCredential({})
@@ -98,7 +44,7 @@ class Wallet extends Component {
         this.setState({credList: creds});
 
         // -- dummy creds --
-        if(useDummy){
+        if (useDummy) {
           this.setState({credList: dummyCreds});
         }
         // -- dummy creds --
@@ -138,9 +84,12 @@ class Wallet extends Component {
               onIndexChanged={index => this.setState({currentCred: index})}>
               {creds}
             </Swiper>
-            <Option cred={this.state.credList[this.state.currentCred]} useDummy={useDummy} />
+            <Option
+              cred={this.state.credList[this.state.currentCred]}
+              useDummy={useDummy}
+            />
           </SafeAreaView>
-          <Footer useDummy={useDummy}/>
+          <Footer setting={true} useDummy={useDummy} />
         </SafeAreaView>
       );
     }

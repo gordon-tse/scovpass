@@ -13,7 +13,6 @@ import ArnimaSDK from 'react-native-arnima-sdk';
 
 import Header from '../components/header';
 import Footer from '../components/footer';
-import GetVerified from './get_verified';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const win = Dimensions.get('window');
@@ -84,7 +83,7 @@ class Passcode extends Component {
               <Text style={style.buttonText}>Present to this verifier</Text>
             </TouchableOpacity>
           </SafeAreaView>
-          <Footer />
+          <Footer setting={false} />
         </SafeAreaView>
       );
     }

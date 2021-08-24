@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
-import ArnimaSDK from 'react-native-arnima-sdk';
 
 import Splash from './components/splash';
 import Create from './components/create_wallet';
