@@ -11,8 +11,14 @@ if [ $1 == "start" ]
         # check if von-network docker image has been built
         echo "starting von-network"
         ./von-network/manage start
+        GENESIS=$(curl 0.0.0.0:9000/genesis)
         echo "starting aries-cloudagent-python"
-        # ./aries-cloudagent-python/script/
+        ./aries-cloudagent-python/script/run_docker start
+        --inbound-transport http 0.0.0.0 8000 \
+        --outbound-transport http
+        --genesis-transactions $GENESIS
+        --auto-respond-presentation-request
+        --auto-accept-requests
 
 fi
 

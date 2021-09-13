@@ -46,7 +46,7 @@ class FetchCredential extends Component {
     this.timeOutCount = setTimeout(() => {
       this.setState({finished: true});
       this.props.navigation.navigate('manage');
-    }, 8000);
+    }, 5000);
     this.listner = EventRegister.addEventListener('SDKEvent', received => {
       this.state.message = received;
       this.handleVerificationResponse();
@@ -113,9 +113,9 @@ class FetchCredential extends Component {
         JSON.stringify(walletInfo),
         poolConfig,
       ).catch(e => {
-        Alert.alert('Service unavailable at the moment');
-        this.setState({finished: true});
-        this.props.navigation.navigate('wallet');
+        // Alert.alert('Service unavailable at the moment');
+        // this.setState({finished: true});
+        // this.props.navigation.navigate('wallet');
       });
     });
   };

@@ -166,7 +166,7 @@ class GetVerified extends Component {
     this.setState({finished: true});
     clearTimeout(timeOutCount);
     this.props.navigation.navigate('result');
-    setTimeout(() => this.props.navigation.navigate('wallet'), 2000);
+    // setTimeout(() => this.props.navigation.navigate('wallet'), 2000);
   };
 
   errorHandling = message => {
