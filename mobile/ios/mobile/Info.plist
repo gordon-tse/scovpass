@@ -37,7 +37,7 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
-      			<string>TLSv1.1</string>
+				<string>TLSv1.1</string>
 			</dict>
 			<key>indiciotech.io</key>
 			<dict>
@@ -46,7 +46,7 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
-      			<string>TLSv1.1</string>
+				<string>TLSv1.1</string>
 			</dict>
 			<key>localhost</key>
 			<dict>
@@ -68,6 +68,17 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ScovpassDemoUrl</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.scovpass.demo</string>
+		</dict>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
